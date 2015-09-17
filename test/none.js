@@ -78,4 +78,11 @@ describe('none', function () {
         expect(runs.length).to.equal(0);
         done();
     });
+
+    it('deleteWorkspace', function (done) {
+
+        var fishFinder = new FishFinder(internals.defaults);
+        fishFinder.deleteWorkspace();
+        done();
+    });
 });

@@ -82,13 +82,19 @@ describe('invalid', function () {
         }, 1000);
     });
 
-
     it('deleteRuns', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
         fishFinder.deleteRuns();
         var runs = fishFinder.getRuns();
         expect(runs.length).to.equal(0);
+        done();
+    });
+
+    it('deleteWorkspace', function (done) {
+
+        var fishFinder = new FishFinder(internals.defaults);
+        fishFinder.deleteWorkspace();
         done();
     });
 });
