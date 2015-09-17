@@ -11,24 +11,23 @@ var internals = {
         configFile: 'config.json'
     }
 };
-
 var lab = exports.lab = Lab.script();
 var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
-describe('normal', function () {
+describe('fixed', function () {
 
-    it('createRun', function (done) {
+    it('createRun invalid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
-        var commands = ['uptime', 'date'];
+        var commands = ['invalid'];
         var run = fishFinder.createRun(null, commands);
         expect(run.id).to.exist();
         done();
     });
 
-    it('getRuns', function (done) {
+    it('getRuns invalid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
         var runs = fishFinder.getRuns();
@@ -36,7 +35,7 @@ describe('normal', function () {
         done();
     });
 
-    it('startRun', function (done) {
+    it('startRun invalid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
         var runId = fishFinder.getRuns()[0].id;
@@ -48,7 +47,7 @@ describe('normal', function () {
         });
     });
 
-    it('getRun', function (done) {
+    it('getRun invalid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
         var runId = fishFinder.getRuns()[0].id;
@@ -59,35 +58,23 @@ describe('normal', function () {
             if (run.finishTime) {
                 clearInterval(interval);
                 //console.log(run);
-                expect(run.status).to.equal('succeeded');
-                expect(run.commands.length).to.equal(2);
+                expect(run.status).to.equal('failed');
+                expect(run.commands.length).to.equal(1);
                 done();
             }
         }, 1000);
     });
 
-    it('createRun 2', function (done) {
+    it('createRun valid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
-        var commands = ['uptime', 'date'];
+        var commands = ['uptime'];
         var run = fishFinder.createRun(null, commands);
         expect(run.id).to.exist();
         done();
     });
 
-    it('startRun 2', function (done) {
-
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        fishFinder.startRun(runId, function () {
-
-            var runs = fishFinder.getRuns();
-            expect(runs[0].status).to.equal('started');
-            done();
-        });
-    });
-
-    it('getRuns 2', function (done) {
+    it('getRuns valid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
         var runs = fishFinder.getRuns();
@@ -95,7 +82,19 @@ describe('normal', function () {
         done();
     });
 
-    it('getRun 2', function (done) {
+    it('startRun valid', function (done) {
+
+        var fishFinder = new FishFinder(internals.defaults);
+        var runId = fishFinder.getRuns()[0].id;
+        fishFinder.startRun(runId, function () {
+
+            var runs = fishFinder.getRuns();
+            expect(runs[0].status).to.equal('started');
+            done();
+        });
+    });
+
+    it('getRun valid', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
         var runId = fishFinder.getRuns()[0].id;
@@ -106,28 +105,18 @@ describe('normal', function () {
             if (run.finishTime) {
                 clearInterval(interval);
                 //console.log(run);
-                expect(run.status).to.equal('succeeded');
-                expect(run.commands.length).to.equal(2);
+                expect(run.status).to.equal('fixed');
+                expect(run.commands.length).to.equal(1);
                 done();
             }
         }, 1000);
     });
 
-    it('deleteRun 2', function (done) {
+
+    it('deleteRuns', function (done) {
 
         var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        fishFinder.deleteRun(runId);
-        var runs = fishFinder.getRuns();
-        expect(runs.length).to.equal(1);
-        done();
-    });
-
-    it('deleteRun', function (done) {
-
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        fishFinder.deleteRun(runId);
+        fishFinder.deleteRuns();
         var runs = fishFinder.getRuns();
         expect(runs.length).to.equal(0);
         done();
