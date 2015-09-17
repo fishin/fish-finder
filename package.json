@@ -19,10 +19,7 @@
   },
   "dependencies": {
     "bobber": "git+https://github.com/fishin/bobber.git",
-    "boom": "2.x.x",
-    "hapi": "10.x.x",
     "hoek": "2.x.x",
-    "joi": "6.x.x",
     "pail": "git+https://github.com/fishin/pail.git",
     "smelt": "git+https://github.com/fishin/smelt.git"
   },
