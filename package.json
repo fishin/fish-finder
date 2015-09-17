@@ -1,0 +1,34 @@
+{
+  "name": "fishfinder",
+  "version": "0.0.1",
+  "description": "run libs for ficion",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fishin/fishfinder"
+  },
+  "author": "Lloyd Benson",
+  "license": "MIT",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "console": "lab -a code -t 100 -v -m 10000 -L",
+    "test": "lab -a code -t 100 -v -m 10000 -L -r json -o test.lab -r html -o test.html -r console -o stdout -r console -o test.log"
+  },
+  "dependencies": {
+    "bobber": "git+https://github.com/fishin/bobber.git",
+    "boom": "2.x.x",
+    "hapi": "10.x.x",
+    "hoek": "2.x.x",
+    "joi": "6.x.x",
+    "pail": "git+https://github.com/fishin/pail.git",
+    "smelt": "git+https://github.com/fishin/smelt.git"
+  },
+  "devDependencies": {
+    "code": "1.x.x",
+    "lab": "5.x.x",
+    "mock": "git+https://github.com/fishin/mock.git"
+  }
+}
