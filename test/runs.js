@@ -1,7 +1,9 @@
 var Code = require('code');
 var FishFinder = require('..');
+var Hoek = require('hoek');
 var Lab = require('lab');
 var Pail = require('pail');
+var Rimraf = require('rimraf');
 
 var internals = {
     defaults: {
@@ -10,11 +12,18 @@ var internals = {
 };
 
 var lab = exports.lab = Lab.script();
+var after = lab.after;
 var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
 describe('runs', function () {
+
+    after(function (done) {
+
+        Rimraf(internals.defaults.dirPath, Hoek.ignore);
+        done();
+    });
 
     it('deleteRun many', function (done) {
 
