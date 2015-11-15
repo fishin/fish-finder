@@ -1,57 +1,59 @@
-var Code = require('code');
-var Lab = require('lab');
+'use strict';
 
-var FishFinder = require('..');
+const Code = require('code');
+const Lab = require('lab');
 
-var internals = {
+const FishFinder = require('..');
+
+const internals = {
     defaults: {
         dirPath: __dirname + '/tmp/runs',
         workspace: 'workspace',
         configFile: 'config.json'
     }
 };
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
-describe('fixed', function () {
+describe('fixed', () => {
 
-    it('createRun invalid', function (done) {
+    it('createRun invalid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var commands = ['invalid'];
-        var run = fishFinder.createRun(null, commands);
+        const fishFinder = new FishFinder(internals.defaults);
+        const commands = ['invalid'];
+        const run = fishFinder.createRun(null, commands);
         expect(run.id).to.exist();
         done();
     });
 
-    it('getRuns invalid', function (done) {
+    it('getRuns invalid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runs = fishFinder.getRuns();
+        const fishFinder = new FishFinder(internals.defaults);
+        const runs = fishFinder.getRuns();
         expect(runs.length).to.equal(1);
         done();
     });
 
-    it('startRun invalid', function (done) {
+    it('startRun invalid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        fishFinder.startRun(runId, function () {
+        const fishFinder = new FishFinder(internals.defaults);
+        const runId = fishFinder.getRuns()[0].id;
+        fishFinder.startRun(runId, () => {
 
-            var runs = fishFinder.getRuns();
+            const runs = fishFinder.getRuns();
             expect(runs[0].status).to.equal('started');
             done();
         });
     });
 
-    it('getRun invalid', function (done) {
+    it('getRun invalid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        var run = fishFinder.getRun(runId);
-        var interval = setInterval(function () {
+        const fishFinder = new FishFinder(internals.defaults);
+        const runId = fishFinder.getRuns()[0].id;
+        let run = fishFinder.getRun(runId);
+        const interval = setInterval(() => {
 
             run = fishFinder.getRun(runId);
             if (run.finishTime) {
@@ -64,41 +66,41 @@ describe('fixed', function () {
         }, 1000);
     });
 
-    it('createRun valid', function (done) {
+    it('createRun valid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var commands = ['uptime'];
-        var run = fishFinder.createRun(null, commands);
+        const fishFinder = new FishFinder(internals.defaults);
+        const commands = ['uptime'];
+        const run = fishFinder.createRun(null, commands);
         expect(run.id).to.exist();
         done();
     });
 
-    it('getRuns valid', function (done) {
+    it('getRuns valid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runs = fishFinder.getRuns();
+        const fishFinder = new FishFinder(internals.defaults);
+        const runs = fishFinder.getRuns();
         expect(runs.length).to.equal(2);
         done();
     });
 
-    it('startRun valid', function (done) {
+    it('startRun valid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        fishFinder.startRun(runId, function () {
+        const fishFinder = new FishFinder(internals.defaults);
+        const runId = fishFinder.getRuns()[0].id;
+        fishFinder.startRun(runId, () => {
 
-            var runs = fishFinder.getRuns();
+            const runs = fishFinder.getRuns();
             expect(runs[0].status).to.equal('started');
             done();
         });
     });
 
-    it('getRun valid', function (done) {
+    it('getRun valid', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        var run = fishFinder.getRun(runId);
-        var interval = setInterval(function () {
+        const fishFinder = new FishFinder(internals.defaults);
+        const runId = fishFinder.getRuns()[0].id;
+        let run = fishFinder.getRun(runId);
+        const interval = setInterval(() => {
 
             run = fishFinder.getRun(runId);
             if (run.finishTime) {
@@ -112,18 +114,18 @@ describe('fixed', function () {
     });
 
 
-    it('deleteRuns', function (done) {
+    it('deleteRuns', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
+        const fishFinder = new FishFinder(internals.defaults);
         fishFinder.deleteRuns();
-        var runs = fishFinder.getRuns();
+        const runs = fishFinder.getRuns();
         expect(runs.length).to.equal(0);
         done();
     });
 
-    it('deleteWorkspace', function (done) {
+    it('deleteWorkspace', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
+        const fishFinder = new FishFinder(internals.defaults);
         fishFinder.deleteWorkspace();
         done();
     });

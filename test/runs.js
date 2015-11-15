@@ -1,77 +1,79 @@
-var Code = require('code');
-var FishFinder = require('..');
-var Hoek = require('hoek');
-var Lab = require('lab');
-var Pail = require('pail');
-var Rimraf = require('rimraf');
+'use strict';
 
-var internals = {
+const Code = require('code');
+const FishFinder = require('..');
+const Hoek = require('hoek');
+const Lab = require('lab');
+const Pail = require('pail');
+const Rimraf = require('rimraf');
+
+const internals = {
     defaults: {
         dirPath: __dirname + '/tmp'
     }
 };
 
-var lab = exports.lab = Lab.script();
-var after = lab.after;
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const lab = exports.lab = Lab.script();
+const after = lab.after;
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
-describe('runs', function () {
+describe('runs', () => {
 
-    after(function (done) {
+    after((done) => {
 
         Rimraf(internals.defaults.dirPath, Hoek.ignore);
         done();
     });
 
-    it('deleteRun many', function (done) {
+    it('deleteRun many', (done) => {
 
-        var fishfinder = new FishFinder(internals.defaults);
+        const fishfinder = new FishFinder(internals.defaults);
         // 2 success
-        var pail = new Pail({ dirPath: internals.defaults.dirPath });
-        var commands = ['uptime', 'date'];
-        var success1Run = fishfinder.createRun(null, commands);
+        const pail = new Pail({ dirPath: internals.defaults.dirPath });
+        const commands = ['uptime', 'date'];
+        const success1Run = fishfinder.createRun(null, commands);
         expect(success1Run.status).to.equal('created');
         success1Run.status = 'succeeded';
-        var updateSuccessPail1 = pail.updatePail(success1Run);
+        const updateSuccessPail1 = pail.updatePail(success1Run);
         expect(updateSuccessPail1.status).to.equal('succeeded');
-        var success2Run = fishfinder.createRun(null, commands);
+        const success2Run = fishfinder.createRun(null, commands);
         expect(success2Run.status).to.equal('created');
         success2Run.status = 'succeeded';
-        var updateSuccessPail2 = pail.updatePail(success2Run);
+        const updateSuccessPail2 = pail.updatePail(success2Run);
         expect(updateSuccessPail2.status).to.equal('succeeded');
         // 2 failed
-        var fail1Run = fishfinder.createRun(null, commands);
+        const fail1Run = fishfinder.createRun(null, commands);
         expect(fail1Run.status).to.equal('created');
         fail1Run.status = 'failed';
-        var updateFailPail1 = pail.updatePail(fail1Run);
+        const updateFailPail1 = pail.updatePail(fail1Run);
         expect(updateFailPail1.status).to.equal('failed');
-        var fail2Run = fishfinder.createRun(null, commands);
+        const fail2Run = fishfinder.createRun(null, commands);
         expect(fail2Run.status).to.equal('created');
         fail2Run.status = 'failed';
-        var updateFailPail2 = pail.updatePail(fail2Run);
+        const updateFailPail2 = pail.updatePail(fail2Run);
         expect(updateFailPail2.status).to.equal('failed');
         // 2 cancelled
-        var cancel1Run = fishfinder.createRun(null, commands);
+        const cancel1Run = fishfinder.createRun(null, commands);
         expect(cancel1Run.status).to.equal('created');
         cancel1Run.status = 'cancelled';
-        var updateCancelPail1 = pail.updatePail(cancel1Run);
+        const updateCancelPail1 = pail.updatePail(cancel1Run);
         expect(updateCancelPail1.status).to.equal('cancelled');
-        var cancel2Run = fishfinder.createRun(null, commands);
+        const cancel2Run = fishfinder.createRun(null, commands);
         expect(cancel2Run.status).to.equal('created');
         cancel2Run.status = 'cancelled';
-        var updateCancelPail2 = pail.updatePail(cancel2Run);
+        const updateCancelPail2 = pail.updatePail(cancel2Run);
         expect(updateCancelPail2.status).to.equal('cancelled');
-        var success3Run = fishfinder.createRun(null, commands);
+        const success3Run = fishfinder.createRun(null, commands);
         expect(success3Run.status).to.equal('created');
         success3Run.status = 'fixed';
-        var updateSuccessPail3 = pail.updatePail(success3Run);
+        const updateSuccessPail3 = pail.updatePail(success3Run);
         expect(updateSuccessPail3.status).to.equal('fixed');
-        var success4Run = fishfinder.createRun(null, commands);
+        const success4Run = fishfinder.createRun(null, commands);
         expect(success4Run.status).to.equal('created');
         success4Run.status = 'succeeded';
-        var updateSuccessPail4 = pail.updatePail(success4Run);
+        const updateSuccessPail4 = pail.updatePail(success4Run);
         expect(updateSuccessPail4.status).to.equal('succeeded');
         // now start deleting stuff
         fishfinder.deleteRun(success4Run.id);
@@ -104,26 +106,26 @@ describe('runs', function () {
         done();
     });
 
-    it('deleteRun not last', function (done) {
+    it('deleteRun not last', (done) => {
 
-        var fishfinder = new FishFinder(internals.defaults);
-        var pail = new Pail({ dirPath: internals.defaults.dirPath });
+        const fishfinder = new FishFinder(internals.defaults);
+        const pail = new Pail({ dirPath: internals.defaults.dirPath });
         // 3 success
-        var commands = ['uptime', 'date'];
-        var success1Run = fishfinder.createRun(null, commands);
+        const commands = ['uptime', 'date'];
+        const success1Run = fishfinder.createRun(null, commands);
         expect(success1Run.status).to.equal('created');
         success1Run.status = 'succeeded';
-        var updateSuccessPail1 = pail.updatePail(success1Run);
+        const updateSuccessPail1 = pail.updatePail(success1Run);
         expect(updateSuccessPail1.status).to.equal('succeeded');
-        var success2Run = fishfinder.createRun(null, commands);
+        const success2Run = fishfinder.createRun(null, commands);
         expect(success2Run.status).to.equal('created');
         success2Run.status = 'succeeded';
-        var updateSuccessPail2 = pail.updatePail(success2Run);
+        const updateSuccessPail2 = pail.updatePail(success2Run);
         expect(updateSuccessPail2.status).to.equal('succeeded');
-        var success3Run = fishfinder.createRun(null, commands);
+        const success3Run = fishfinder.createRun(null, commands);
         expect(success3Run.status).to.equal('created');
         success3Run.status = 'succeeded';
-        var updateSuccessPail3 = pail.updatePail(success3Run);
+        const updateSuccessPail3 = pail.updatePail(success3Run);
         expect(updateSuccessPail3.status).to.equal('succeeded');
         expect(pail.getPailByName('last')).to.equal(success3Run.id);
         fishfinder.deleteRun(success2Run.id);
@@ -133,29 +135,29 @@ describe('runs', function () {
         done();
     });
 
-    it('getPreviousRun', function (done) {
+    it('getPreviousRun', (done) => {
 
-        var fishfinder = new FishFinder(internals.defaults);
+        const fishfinder = new FishFinder(internals.defaults);
         // 3 success
-        var pail = new Pail({ dirPath: internals.defaults.dirPath });
-        var commands = ['uptime', 'date'];
-        var success1Run = fishfinder.createRun(null, commands);
+        const pail = new Pail({ dirPath: internals.defaults.dirPath });
+        const commands = ['uptime', 'date'];
+        const success1Run = fishfinder.createRun(null, commands);
         expect(success1Run.status).to.equal('created');
         success1Run.status = 'succeeded';
-        var updateSuccessPail1 = pail.updatePail(success1Run);
+        const updateSuccessPail1 = pail.updatePail(success1Run);
         expect(updateSuccessPail1.status).to.equal('succeeded');
-        var success2Run = fishfinder.createRun(null, commands);
+        const success2Run = fishfinder.createRun(null, commands);
         expect(success2Run.status).to.equal('created');
         success2Run.status = 'succeeded';
-        var updateSuccessPail2 = pail.updatePail(success2Run);
+        const updateSuccessPail2 = pail.updatePail(success2Run);
         expect(updateSuccessPail2.status).to.equal('succeeded');
-        var success3Run = fishfinder.createRun(null, commands);
+        const success3Run = fishfinder.createRun(null, commands);
         expect(success3Run.status).to.equal('created');
         success3Run.status = 'succeeded';
-        var updateSuccessPail3 = pail.updatePail(success3Run);
+        const updateSuccessPail3 = pail.updatePail(success3Run);
         expect(updateSuccessPail3.status).to.equal('succeeded');
         expect(pail.getPailByName('last')).to.equal(success3Run.id);
-        var run = fishfinder.getPreviousRun(success3Run.id);
+        let run = fishfinder.getPreviousRun(success3Run.id);
         expect(run.id).to.equal(success2Run.id);
         run = fishfinder.getPreviousRun(success2Run.id);
         expect(run.id).to.equal(success1Run.id);

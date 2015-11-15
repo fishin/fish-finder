@@ -1,9 +1,11 @@
-var Code = require('code');
-var Lab = require('lab');
+'use strict';
 
-var FishFinder = require('..');
+const Code = require('code');
+const Lab = require('lab');
 
-var internals = {
+const FishFinder = require('..');
+
+const internals = {
     defaults: {
         dirPath: __dirname + '/tmp/runs',
         workspace: 'workspace',
@@ -11,53 +13,53 @@ var internals = {
     }
 };
 
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
-describe('git', function () {
+describe('git', () => {
 
-    it('createRun', function (done) {
+    it('createRun', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var commands = ['uptime'];
-        var scm = {
+        const fishFinder = new FishFinder(internals.defaults);
+        const commands = ['uptime'];
+        const scm = {
             type: 'git',
             url: 'https://github.com/fishin/pail',
             branch: 'master'
         };
-        var run = fishFinder.createRun(scm, commands);
+        const run = fishFinder.createRun(scm, commands);
         expect(run.id).to.exist();
         done();
     });
 
-    it('getRuns', function (done) {
+    it('getRuns', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runs = fishFinder.getRuns();
+        const fishFinder = new FishFinder(internals.defaults);
+        const runs = fishFinder.getRuns();
         expect(runs.length).to.equal(1);
         done();
     });
 
-    it('startRun', function (done) {
+    it('startRun', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        fishFinder.startRun(runId, function () {
+        const fishFinder = new FishFinder(internals.defaults);
+        const runId = fishFinder.getRuns()[0].id;
+        fishFinder.startRun(runId, () => {
 
-            var runs = fishFinder.getRuns();
+            const runs = fishFinder.getRuns();
             expect(runs[0].status).to.equal('started');
             done();
         });
     });
 
-    it('getRun', function (done) {
+    it('getRun', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
-        var runId = fishFinder.getRuns()[0].id;
-        var run = fishFinder.getRun(runId);
-        var interval = setInterval(function () {
+        const fishFinder = new FishFinder(internals.defaults);
+        const runId = fishFinder.getRuns()[0].id;
+        let run = fishFinder.getRun(runId);
+        const interval = setInterval(() => {
 
             run = fishFinder.getRun(runId);
             if (run.finishTime) {
@@ -71,18 +73,18 @@ describe('git', function () {
         }, 1000);
     });
 
-    it('deleteRuns', function (done) {
+    it('deleteRuns', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
+        const fishFinder = new FishFinder(internals.defaults);
         fishFinder.deleteRuns();
-        var runs = fishFinder.getRuns();
+        const runs = fishFinder.getRuns();
         expect(runs.length).to.equal(0);
         done();
     });
 
-    it('deleteWorkspace', function (done) {
+    it('deleteWorkspace', (done) => {
 
-        var fishFinder = new FishFinder(internals.defaults);
+        const fishFinder = new FishFinder(internals.defaults);
         fishFinder.deleteWorkspace();
         done();
     });
